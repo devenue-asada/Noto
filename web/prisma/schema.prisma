@@ -1,0 +1,110 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = env("BINARY_TARGETS")
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+// 会社情報
+model companies {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(256) // 会社名
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime @default("1997-01-01T00:00:00Z")
+  stores     stores[]
+}
+
+// 店舗情報
+model stores {
+  id                                 Int       @id @default(autoincrement())
+  company_id                         Int
+  url                                String    @db.VarChar(256) // URL
+  name                               String    @db.VarChar(256) // 店舗名
+  started_at                         DateTime? // 営業時間（開始）
+  ended_at                           DateTime? // 営業時間（終了）
+  twenty_percent_discount_start_time DateTime? @db.Time // 20%割引開始時間
+  half_price_start_time              DateTime? @db.Time // 半額割引開始時間
+  freshly_made_time                  DateTime? @db.Time // できたて時間
+  tel                                String    @db.VarChar(256) // 電話番号
+  address                            String    @db.VarChar(256) // 住所
+  access                             String?   @db.VarChar(256) // アクセス
+  parking                            String?   @db.VarChar(256) // 駐車場
+  payment_method                     String?   @db.VarChar(256) // 支払い方法
+  created_at                         DateTime  @default(now())
+  updated_at                         DateTime  @updatedAt
+  deleted_at                         DateTime  @default("1997-01-01T00:00:00Z")
+  items                              items[]
+  company                            companies @relation(fields: [company_id], references: [id])
+}
+
+// 惣菜情報
+model items {
+  id         Int       @id @default(autoincrement())
+  store_id   Int
+  name       String    @db.VarChar(256) // お惣菜名
+  image      String    @db.VarChar(256) // お惣菜画像
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime  @default("1997-01-01T00:00:00Z")
+  reviews    reviews[]
+  store      stores    @relation(fields: [store_id], references: [id])
+}
+
+// ユーザー
+model users {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(256) // ユーザー名
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime  @default("1997-01-01T00:00:00Z")
+  reviews    reviews[]
+  goods      goods[]
+}
+
+// 評価
+model reviews {
+  id                 Int                @id @default(autoincrement())
+  item_id            Int
+  user_id            Int
+  discount_status_id Int
+  star               Int //お惣菜評価（1〜5）
+  content            String             @db.VarChar(256) // レビュー内容
+  tax_in_price       Int // 買った値段（税込）
+  purchase_time      DateTime?          @db.Time // できたて時間
+  is_freshly_made    Boolean // 出来立てフラグ
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt
+  deleted_at         DateTime           @default("1997-01-01T00:00:00Z")
+  goods              goods[]
+  item               items              @relation(fields: [item_id], references: [id])
+  user               users              @relation(fields: [user_id], references: [id])
+  discount_status    discount_statuses? @relation(fields: [discount_status_id], references: [status_id])
+}
+
+// 参考になった数
+model goods {
+  id         Int      @id @default(autoincrement())
+  user_id    Int?
+  review_id  Int?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime @default("1997-01-01T00:00:00Z")
+  user       users?   @relation(fields: [user_id], references: [id])
+  review     reviews? @relation(fields: [review_id], references: [id])
+}
+
+// 値引きステータス
+model discount_statuses {
+  id         Int       @id @default(autoincrement())
+  status_id  Int       @unique // ステータスID
+  name       String    @db.VarChar(256) // 名称
+  percent    Int // 値引き率
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime  @default("1997-01-01T00:00:00Z")
+  reviews    reviews[]
+}

@@ -1,0 +1,57 @@
+{
+    "name": "Noto",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "local": "next dev --turbo",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "db:generate": "npx prisma generate",
+        "db:migrate": "npx prisma migrate dev",
+        "db:seed": "npx prisma db seed",
+        "db:deploy": "npx prisma migrate deploy",
+        "format": "prettier --write 'app/**/*.{js,ts,tsx}'"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    },
+    "dependencies": {
+        "@aws-amplify/ui-react": "^6.8.0",
+        "@emotion/cache": "^11.14.0",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.0",
+        "@hookform/resolvers": "^3.9.1",
+        "@mui/icons-material": "^6.3.0",
+        "@mui/material": "^6.3.0",
+        "@mui/material-nextjs": "^6.3.0",
+        "aws-amplify": "^6.11.0",
+        "jotai": "^2.11.0",
+        "next": "15.1.3",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@aws-amplify/backend": "^1.11.0",
+        "@aws-amplify/backend-cli": "^1.4.5",
+        "@eslint/eslintrc": "^3",
+        "@prisma/client": "^6.1.0",
+        "@types/node": "^20.17.10",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "aws-cdk": "^2.173.4",
+        "aws-cdk-lib": "^2.173.4",
+        "eslint": "^9",
+        "eslint-config-next": "15.1.3",
+        "postcss": "^8",
+        "prettier": "^3.4.2",
+        "prettier-plugin-organize-imports": "^4.1.0",
+        "prettier-plugin-tailwindcss": "^0.6.9",
+        "prisma": "^6.1.0",
+        "tailwindcss": "^3.4.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.2"
+    }
+}

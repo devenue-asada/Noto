@@ -1,0 +1,29 @@
+services:
+  web:
+    image: node:22.13-slim
+    platform: linux/x86_64
+    working_dir: /app
+    tty: true
+    volumes:
+      - ./web:/app
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    command: /bin/bash -c "npm i && npm run local"
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: noto-db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - 13306:3306
+
+volumes:
+  mysql-data:
