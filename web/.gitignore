@@ -40,7 +40,3 @@ next-env.d.ts
 
 # prisma
 /prisma/client
-
-# amplify
-/.amplify/
-amplify_outputs.json
