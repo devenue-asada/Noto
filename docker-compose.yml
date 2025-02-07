@@ -10,7 +10,7 @@ services:
       - .env
     ports:
       - 3000:3000
-    command: bash -c "npm i && npm run local"
+    command: bash -c "npm i && npm run dev"
 
   # mysql:
   #   image: mysql:8.0
