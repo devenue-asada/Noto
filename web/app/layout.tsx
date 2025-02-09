@@ -23,6 +23,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
+            <head>
+                <link rel="manifest" href="/manifest.json" />
+            </head>
             <body className={roboto.variable}>
                 <JotaiProviders>
                     <AppRouterCacheProvider>

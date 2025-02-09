@@ -1,5 +1,7 @@
-import type { NextConfig } from 'next';
+/** @type {import('next').NextConfig} */
 
-const nextConfig: NextConfig = {};
+const withPWA = require('next-pwa')({
+    dest: 'public'
+});
 
-export default nextConfig;
+module.exports = withPWA({});
